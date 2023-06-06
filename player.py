@@ -18,23 +18,11 @@ class Player():
 
 
 
-
-    # def drawPlayer(self, kp, moving, moving_right, moving_left, hit_box):
-    #     if not moving:
-    #         if i >= 12:
-    #             i = 1
-    #             idle = PlayerAnimationLists.idlePlayer[i]
-    #             # How do i blit outside of the main file.
-    #             # WIN.blit(idle, (player.x, player.y))
-    #             pygame.display.update()
-    #             i +=1
-    #
-    #     if moving:
-    #         if moving_right:
-    #             if i > 9:
-    #                 i = 1
-    #                 running_right = PlayerAnimationLists.playerRunningRight[i]
-    #                 #WIN.blit(running_right(player.x,player.y))
-    #                 pygame.display.update()
-    #                 i += 1
-    #
+#notes on player stats
+# height = 400
+# width = 200
+# health = 100
+# velocity = 10
+# x = 100
+# y = 300
+#moving vars are false intitally
