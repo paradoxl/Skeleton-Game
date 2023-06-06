@@ -141,7 +141,7 @@ player_moving_right = False
 player_idle = False
 
 # background information
-background_image = pygame.transform.scale(pygame.image.load("assets/NightForest/Layers/Image.png"),(screen_width,                                                                                                    screen_height))
+background_image = pygame.transform.scale(pygame.image.load("assets/NightForest/Layers/Image.png"),(screen_width,screen_height))
 
 # drawing player
 idle_counter = 1
@@ -164,19 +164,19 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_running = False
-                pygame.quit()
             keys_pressed = pygame.key.get_pressed()
             player_one = player.Player(player_height,player_width,player_health,player_velocity,player_starting_pos_x,
                                        player_starting_pos_y,player_moving_right,player_moving_left,player_idle)
             player_hitbox = pygame.Rect(player_one.x,player_one.y,player_one.player_width,player_one.player_height)
 
-            # player_one.idle = True
-            player_one.moving_right = True
+            player_one.idle = True
+            # player_one.moving_right = True
             draw_background(counter, scroll, tiles)
             draw_player(keys_pressed,player_hitbox,player_one)
-            player_movement(keys_pressed,player_one)
-
-
+            player_movement(keys_pressed,player_one,player_hitbox)
+            # print("Class" , player_one.x)
+            # print("rect", player_hitbox.x)
+            pygame.display.update()
 
 def draw_player(keys_pressed, player_hitbox, player_one):
     global idle_counter
@@ -202,7 +202,7 @@ def draw_player(keys_pressed, player_hitbox, player_one):
         idle_counter += 1
 
 
-    pygame.display.update()
+
 def draw_background(counter,scroll,tiles):
     while (counter < tiles):
         window.blit(background_image, (background_image.get_width() * counter + scroll, 0))
@@ -210,11 +210,13 @@ def draw_background(counter,scroll,tiles):
     if abs(scroll) > background_image.get_width():
         scroll = 0
     # pygame.display.update()
-def player_movement(keys_pressed,player_one,):
+def player_movement(keys_pressed,player_one,player_hitbox):
     if keys_pressed[pygame.K_RIGHT]:
         player_one.x += 10
+        player_hitbox.x += 10
         print(player_one.x)
-        
+        print(player_hitbox.x)
+
 
 
 main()
