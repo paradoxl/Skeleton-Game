@@ -4,7 +4,7 @@ import PlayerAnimationLists
 import player
 
 
-# width = 900
+# width = 900pi
 # height = 600
 # playerMoving = False # Code debt in the making
 # WIN = pygame.display.set_mode((width, height))
@@ -189,34 +189,53 @@ def draw_player(keys_pressed, player_hitbox, player_one):
     clock = pygame.time.Clock()
     clock.tick(10)
     # Movement right
-    if player_one.moving_right == True:
+    if player_one.moving_right:
         if moving_right_counter >= 10:
             moving_right_counter = 1
         value = PlayerAnimationLists.playerRunningRight[moving_right_counter]
         window.blit(value,(player_one.x,player_one.y))
         moving_right_counter += 1
+        player_one.direction_facing = True
     # Movement left
-    elif player_one.moving_left == True:
+    elif player_one.moving_left:
         if moving_left_counter >= 10:
             moving_left_counter = 1
         value = pygame.transform.flip(PlayerAnimationLists.playerRunningRight[moving_left_counter], True, False)
         window.blit(value,(player_one.x,player_one.y))
         moving_left_counter += 1
+        player_one.direction_facing = False
     # Melee attack
     elif player_one.attacking:
-        if attack_counter == 9:
-            player_one.attacking = False
-            attack_counter = 1
-        value = PlayerAnimationLists.player_arrow_attack[attack_counter]
-        window.blit(value,(player_one.x,player_one.y))
-        attack_counter += 1
+        if player_one.direction_facing:
+            if attack_counter == 9:
+                player_one.attacking = False
+                attack_counter = 1
+            value = PlayerAnimationLists.player_arrow_attack[attack_counter]
+            window.blit(value,(player_one.x,player_one.y))
+            attack_counter += 1
+        else:
+            if attack_counter == 9:
+                player_one.attacking = False
+                attack_counter = 1
+            value = pygame.transform.flip(PlayerAnimationLists.player_arrow_attack[attack_counter],True,False)
+            window.blit(value, (player_one.x, player_one.y))
+            attack_counter += 1
+
     # Idle
     else:
-        if idle_counter >= 12:
-            idle_counter = 1
-        value = PlayerAnimationLists.idlePlayer[idle_counter]
-        window.blit(value,(player_one.x,player_one.y))
-        idle_counter += 1
+        if player_one.direction_facing:
+            if idle_counter >= 12:
+                idle_counter = 1
+            value = PlayerAnimationLists.idlePlayer[idle_counter]
+            window.blit(value,(player_one.x,player_one.y))
+            idle_counter += 1
+        else:
+            if idle_counter >= 12:
+                idle_counter = 1
+            value = pygame.transform.flip(PlayerAnimationLists.idlePlayer[idle_counter], True, False)
+            window.blit(value, (player_one.x, player_one.y))
+            idle_counter += 1
+
 
 
 
