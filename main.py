@@ -136,9 +136,9 @@ player_health = 100
 player_velocity = 10
 player_starting_pos_x = 100
 player_starting_pos_y = 300
-player_moving_left = False
-player_moving_right = False
-player_idle = False
+# player_moving_left = False
+# player_moving_right = False
+# player_idle = False
 
 # background information
 background_image = pygame.transform.scale(pygame.image.load("assets/NightForest/Layers/Image.png"),(screen_width,screen_height))
@@ -146,16 +146,22 @@ background_image = pygame.transform.scale(pygame.image.load("assets/NightForest/
 # drawing player
 idle_counter = 1
 moving_right_counter = 1
+moving_left_counter = 1
+attack_counter = 1
+# Direction facing is a boolean.
+# False is facing left
+# True is facing right
+player_one = player.Player(player_height, player_width, player_health, player_velocity, player_starting_pos_x,
+                           player_starting_pos_y, False, False, False,False,True)
 
-
-
+player_hitbox = pygame.Rect(player_one.x, player_one.y, player_one.player_width, player_one.player_height)
 
 def main():
     # variables for scrolling background
     scroll = 0
     counter = 0
     tiles = math.ceil(screen_width / background_image.get_width()) + 1
-    # FPS
+
     clock = pygame.time.Clock()
     clock.tick(60)
 
@@ -164,37 +170,48 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_running = False
-            keys_pressed = pygame.key.get_pressed()
-            player_one = player.Player(player_height,player_width,player_health,player_velocity,player_starting_pos_x,
-                                       player_starting_pos_y,player_moving_right,player_moving_left,player_idle)
-            player_hitbox = pygame.Rect(player_one.x,player_one.y,player_one.player_width,player_one.player_height)
+        keys_pressed = pygame.key.get_pressed()
 
-            player_one.idle = True
-            # player_one.moving_right = True
-            draw_background(counter, scroll, tiles)
-            draw_player(keys_pressed,player_hitbox,player_one)
-            player_movement(keys_pressed,player_one,player_hitbox)
-            # print("Class" , player_one.x)
-            # print("rect", player_hitbox.x)
-            pygame.display.update()
+        # player_one.idle = True
+        # player_one.moving_right = True
+        draw_background(counter, scroll, tiles)
+        player_movement(keys_pressed,player_one,player_hitbox)
+        draw_player(keys_pressed,player_hitbox,player_one)
+
+        pygame.display.update()
 
 def draw_player(keys_pressed, player_hitbox, player_one):
     global idle_counter
     global moving_right_counter
+    global moving_left_counter
+    global attack_counter
 
     clock = pygame.time.Clock()
     clock.tick(10)
-
+    # Movement right
     if player_one.moving_right == True:
         if moving_right_counter >= 10:
             moving_right_counter = 1
         value = PlayerAnimationLists.playerRunningRight[moving_right_counter]
         window.blit(value,(player_one.x,player_one.y))
         moving_right_counter += 1
-
-
-
-    if player_one.idle == True:
+    # Movement left
+    elif player_one.moving_left == True:
+        if moving_left_counter >= 10:
+            moving_left_counter = 1
+        value = pygame.transform.flip(PlayerAnimationLists.playerRunningRight[moving_left_counter], True, False)
+        window.blit(value,(player_one.x,player_one.y))
+        moving_left_counter += 1
+    # Melee attack
+    elif player_one.attacking:
+        if attack_counter == 9:
+            player_one.attacking = False
+            attack_counter = 1
+        value = PlayerAnimationLists.player_arrow_attack[attack_counter]
+        window.blit(value,(player_one.x,player_one.y))
+        attack_counter += 1
+    # Idle
+    else:
         if idle_counter >= 12:
             idle_counter = 1
         value = PlayerAnimationLists.idlePlayer[idle_counter]
@@ -209,14 +226,28 @@ def draw_background(counter,scroll,tiles):
         counter += 1
     if abs(scroll) > background_image.get_width():
         scroll = 0
-    # pygame.display.update()
+
 def player_movement(keys_pressed,player_one,player_hitbox):
     if keys_pressed[pygame.K_RIGHT]:
         player_one.x += 10
         player_hitbox.x += 10
-        print(player_one.x)
-        print(player_hitbox.x)
+        player_one.idle = False
+        player_one.moving_right = True
+    elif keys_pressed[pygame.K_LEFT]:
+        player_one.idle = False
+        player_one.moving_right = False
+        player_one.moving_left = True
+        player_one.x -= 10
+        player_hitbox.x -= 10
 
+    elif keys_pressed[pygame.K_1]:
+        player_one.attacking = True
+    else:
+        player_one.idle = False
+        player_one.moving_right = False
+        player_one.moving_left = False
+    print(player_one.moving_right, "right")
+    print(player_one.moving_left,"left")
 
 
 main()
