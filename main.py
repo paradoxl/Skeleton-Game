@@ -1,114 +1,162 @@
 import math
 import pygame
-width = 900
-height = 600
-i = 1
-WIN = pygame.display.set_mode((width, height))
-border = pygame.Rect((width,0,10,height))
-BLACK = (0, 0, 0)
-playerHeight = 400
-playerWidth = 200
-playerMoving = False
+import PlayerAnimationLists
+import player
+#####################
+# issues
+# game does not exit immediately
+####################
 
-# playerIcon = pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/idle/idle_1.png")
-idlePlayer = [pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/idle/idle_1.png"),(playerHeight,playerWidth)), pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/idle/idle_2.png"),(playerHeight,playerWidth)),
-              pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/idle/idle_3.png"),(playerHeight,playerWidth)),pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/idle/idle_4.png"),(playerHeight,playerWidth)),
-              pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/idle/idle_5.png"),(playerHeight,playerWidth)),pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/idle/idle_6.png"),(playerHeight,playerWidth)),
-              pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/idle/idle_7.png"),(playerHeight,playerWidth)),pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/idle/idle_8.png"),(playerHeight,playerWidth)),
-              pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/idle/idle_9.png"),(playerHeight,playerWidth)),pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/idle/idle_10.png"),(playerHeight,playerWidth))
-              ,pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/idle/idle_11.png"),(playerHeight,playerWidth)),pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/idle/idle_12.png"),(playerHeight,playerWidth))]
+####################
+# Notes
+# Direction facing is a boolean.
+# False is facing left
+# True is facing right
+####################
 
-playerRunningRight = [pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/run/run_1.png"),(playerHeight,playerWidth)),pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/run/run_2.png"),(playerHeight,playerWidth)),
-                      pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/run/run_3.png"),(playerHeight,playerWidth)),pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/run/run_4.png"),(playerHeight,playerWidth)),
-                      pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/run/run_5.png"),(playerHeight,playerWidth)),pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/run/run_6.png"),(playerHeight,playerWidth)),
-                      pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/run/run_7.png"),(playerHeight,playerWidth)),pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/run/run_8.png"),(playerHeight,playerWidth)),
-                      pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/run/run_9.png"),(playerHeight,playerWidth)),pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/run/run_10.png"),(playerHeight,playerWidth))]
+# pygame stuffs
+screen_width = 900
+screen_height = 600
+window = pygame.display.set_mode((screen_width, screen_height))
+pygame.init()
+# player information
+player_height = 400
+player_width = 200
+player_health = 100
+player_velocity = 10
+player_starting_pos_x = 100
+player_starting_pos_y = 300
+# player_moving_left = False
+# player_moving_right = False
+# player_idle = False
 
-# playerIcon = pygame.transform.scale(playerIcon, (playerHeight, playerWidth))
-background_image = pygame.transform.scale(pygame.image.load("assets/NightForest/Layers/Image.png"),(width,height))
-moving = False
+# background information
+background_image = pygame.transform.scale(pygame.image.load("assets/NightForest/Layers/Image.png"),(screen_width,screen_height))
 
-#Scrolling background
-scroll = 0
-scrollThreshRight = 600
-scrollThreshLeft = 50
-tiles = math.ceil(width / background_image.get_width()) + 1
+# drawing player
+idle_counter = 1
+moving_right_counter = 1
+moving_left_counter = 1
+attack_counter = 1
+
+player_one = player.Player(player_height, player_width, player_health, player_velocity, player_starting_pos_x,
+                           player_starting_pos_y, False, False, False,False,True)
+
+player_hitbox = pygame.Rect(player_one.x, player_one.y, player_one.player_width, player_one.player_height)
+
 
 def main():
-    player = pygame.Rect(100,300, playerWidth,playerHeight)
+    # variables for scrolling background
+    scroll = 0
+    counter = 0
+    tiles = math.ceil(screen_width / background_image.get_width()) + 1
+
     clock = pygame.time.Clock()
     clock.tick(60)
-    running = True
-    while running:
+
+    game_running = True
+    while game_running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
-        kp = pygame.key.get_pressed()
-        playerMovement(kp,player)
-        draw(player)
-           
-                
-            
-def draw(player):
-    global scroll
-    global playerMoving
+                game_running = False
+        keys_pressed = pygame.key.get_pressed()
+
+        # player_one.idle = True
+        # player_one.moving_right = True
+        draw_background(counter, scroll, tiles)
+        player_movement(keys_pressed,player_one,player_hitbox)
+        draw_player(keys_pressed,player_hitbox,player_one)
+
+        pygame.display.update()
+
+
+def draw_player(keys_pressed, player_hitbox, player_one):
+    global idle_counter
+    global moving_right_counter
+    global moving_left_counter
+    global attack_counter
+
     clock = pygame.time.Clock()
     clock.tick(10)
-#the background scrolls. need to have it do this only when player goes off edge of screen.
-    counter = 0
+    # Movement right
+    if player_one.moving_right:
+        if moving_right_counter >= 10:
+            moving_right_counter = 1
+        value = PlayerAnimationLists.playerRunningRight[moving_right_counter]
+        window.blit(value,(player_one.x,player_one.y))
+        moving_right_counter += 1
+        player_one.direction_facing = True
+    # Movement left
+    elif player_one.moving_left:
+        if moving_left_counter >= 10:
+            moving_left_counter = 1
+        value = pygame.transform.flip(PlayerAnimationLists.playerRunningRight[moving_left_counter], True, False)
+        window.blit(value,(player_one.x,player_one.y))
+        moving_left_counter += 1
+        player_one.direction_facing = False
+    # Melee attack
+    elif player_one.attacking:
+        if player_one.direction_facing:
+            if attack_counter == 9:
+                player_one.attacking = False
+                attack_counter = 1
+            value = PlayerAnimationLists.player_arrow_attack[attack_counter]
+            window.blit(value,(player_one.x,player_one.y))
+            attack_counter += 1
+        else:
+            if attack_counter == 9:
+                player_one.attacking = False
+                attack_counter = 1
+            value = pygame.transform.flip(PlayerAnimationLists.player_arrow_attack[attack_counter],True,False)
+            window.blit(value, (player_one.x, player_one.y))
+            attack_counter += 1
+
+    # Idle
+    else:
+        if player_one.direction_facing:
+            if idle_counter >= 12:
+                idle_counter = 1
+            value = PlayerAnimationLists.idlePlayer[idle_counter]
+            window.blit(value,(player_one.x,player_one.y))
+            idle_counter += 1
+        else:
+            if idle_counter >= 12:
+                idle_counter = 1
+            value = pygame.transform.flip(PlayerAnimationLists.idlePlayer[idle_counter], True, False)
+            window.blit(value, (player_one.x, player_one.y))
+            idle_counter += 1
+
+
+
+
+def draw_background(counter,scroll,tiles):
     while (counter < tiles):
-        WIN.blit(background_image, (background_image.get_width() * counter + scroll, 0))
+        window.blit(background_image, (background_image.get_width() * counter + scroll, 0))
         counter += 1
-    # scroll -= 6
     if abs(scroll) > background_image.get_width():
         scroll = 0
-    global i
-    global width
-    global height
-
-    #Makes the player idle animation
-    if not playerMoving:
-        if i >= 12:
-            i = 1
-        value = idlePlayer[i]
-        WIN.blit(value,(player.x,player.y))
-        pygame.display.update()
-        i += 1
-
-    if playerMoving:
-        if i > 9:
-            i = 0
-        if i >= 9:
-            i = 1
-            running = playerRunningRight[i]
-            WIN.blit(running,(player.x,player.y))
-            pygame.display.update()
-            i += 1
-
-def playerMovement(kp,player):
-    global scroll
-    global playerMoving
-
-    if kp[pygame.K_LEFT] and player.x - 5 > 0:
-        player.x -= 10
-        if player.x < scrollThreshLeft:
-            scroll += 30
-            player.x += 10
-
-    if kp[pygame.K_RIGHT]:
-        player.x += 10
-        if player.x > scrollThreshRight:
-            scroll -= 30
-            player.x -= 10
-        playerMoving = True
-
-    if kp[pygame.K_SPACE]:
-        playerJumping = True
-        player.y -=1
-        
-
-              
 
 
+def player_movement(keys_pressed,player_one,player_hitbox):
+    if keys_pressed[pygame.K_RIGHT]:
+        player_one.x += 10
+        player_hitbox.x += 10
+        player_one.idle = False
+        player_one.moving_right = True
+    elif keys_pressed[pygame.K_LEFT]:
+        player_one.idle = False
+        player_one.moving_right = False
+        player_one.moving_left = True
+        player_one.x -= 10
+        player_hitbox.x -= 10
 
-main()
+    elif keys_pressed[pygame.K_1]:
+        player_one.attacking = True
+    else:
+        player_one.idle = False
+        player_one.moving_right = False
+        player_one.moving_left = False
+
+
+if __name__ == '__main__':
+          main()
