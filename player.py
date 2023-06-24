@@ -5,7 +5,7 @@ import PlayerAnimationLists
 
 class Player():
     def __init__(self, player_height, player_width, health, velocity, x,y,
-                 moving_right, moving_left,idle,attacking,direction_facing):
+                 moving_right, moving_left,idle,attacking,direction_facing,is_jumping):
         self.player_height = player_height
         self.player_width = player_width
         self.health = health
@@ -17,7 +17,8 @@ class Player():
         self.idle = idle
         self.attacking = attacking
         self.direction_facing = direction_facing
-        # False is left True is right
+        self.is_jumping = is_jumping
+
 
 
 

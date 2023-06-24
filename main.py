@@ -29,7 +29,9 @@ player_starting_pos_y = 300
 # player_moving_left = False
 # player_moving_right = False
 # player_idle = False
-
+gravity = 0.6
+jump_height = 20
+jump_speed = 20
 # background information
 background_image = pygame.transform.scale(pygame.image.load("assets/NightForest/Layers/Image.png"),(screen_width,screen_height))
 
@@ -38,9 +40,10 @@ idle_counter = 1
 moving_right_counter = 1
 moving_left_counter = 1
 attack_counter = 1
+jump_counter = 1
 
 player_one = player.Player(player_height, player_width, player_health, player_velocity, player_starting_pos_x,
-                           player_starting_pos_y, False, False, False,False,True)
+                           player_starting_pos_y, False, False, False,False,True,False)
 
 player_hitbox = pygame.Rect(player_one.x, player_one.y, player_one.player_width, player_one.player_height)
 
@@ -75,6 +78,7 @@ def draw_player(keys_pressed, player_hitbox, player_one):
     global moving_right_counter
     global moving_left_counter
     global attack_counter
+    global jump_counter
 
     clock = pygame.time.Clock()
     clock.tick(10)
@@ -110,6 +114,14 @@ def draw_player(keys_pressed, player_hitbox, player_one):
             value = pygame.transform.flip(PlayerAnimationLists.player_arrow_attack[attack_counter],True,False)
             window.blit(value, (player_one.x, player_one.y))
             attack_counter += 1
+    # jump
+    elif player_one.is_jumping:
+        if jump_counter == 22:
+            player_one.is_jumping = False
+            jump_counter = 1
+        value = PlayerAnimationLists.player_jump[jump_counter]
+        window.blit(value,(player_one.x,player_one.y))
+        jump_counter += 1
 
     # Idle
     else:
@@ -138,6 +150,7 @@ def draw_background(counter,scroll,tiles):
 
 
 def player_movement(keys_pressed,player_one,player_hitbox):
+    global jump_speed
     if keys_pressed[pygame.K_RIGHT]:
         player_one.x += 10
         player_hitbox.x += 10
@@ -152,10 +165,15 @@ def player_movement(keys_pressed,player_one,player_hitbox):
 
     elif keys_pressed[pygame.K_1]:
         player_one.attacking = True
+
+    elif keys_pressed[pygame.K_SPACE]:
+        player_one.is_jumping = True
+
     else:
         player_one.idle = False
         player_one.moving_right = False
         player_one.moving_left = False
+        player_one.is_jumping = False
 
 
 if __name__ == '__main__':
