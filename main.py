@@ -2,10 +2,7 @@ import math
 import pygame
 import PlayerAnimationLists
 import player
-#####################
-# issues
-# game does not exit immediately
-####################
+import spritesheets
 
 ####################
 # Notes
@@ -69,6 +66,7 @@ def main():
         draw_background(counter, scroll, tiles)
         player_movement(keys_pressed,player_one,player_hitbox)
         draw_player(keys_pressed,player_hitbox,player_one)
+        draw_enemy()
 
         pygame.display.update()
 
@@ -140,8 +138,11 @@ def draw_player(keys_pressed, player_hitbox, player_one):
 
 
     # may not be able to utilize the ss in the animationlist. Issues with display init.
-    def drawEnemy():
-        window.blit(PlayerAnimationLists.images, (100,200))
+def draw_enemy():
+    Skeleton_Sprite_Sheet_Idle = spritesheets.spritesheet("assets/Skeleton/Sprite Sheets/Skeleton Idle.png")
+    skeleton_idle_broken_down = pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((0, 0, 23, 32), colorkey=(0,0,0)),(75,75))
+
+    window.blit(skeleton_idle_broken_down, (100,200))
 
 
 def draw_background(counter,scroll,tiles):

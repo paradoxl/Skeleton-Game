@@ -41,7 +41,4 @@ player_jump = [pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_
 #######################################
 # Enemies                             #
 #######################################
-Skeleton_Sprite_Sheet_Idle = spritesheets.spritesheet("assets/Skeleton/Sprite Sheets/Skeleton Idle.png")
-skeleton_idle_broken_down = Skeleton_Sprite_Sheet_Idle.image_at((0,0,16,16))
-images = []
-images = skeleton_idle_broken_down.image_at((0,0,16,16),(17,0,16,16), colorkey = (255,255,255))
+
