@@ -139,6 +139,9 @@ def draw_player(keys_pressed, player_hitbox, player_one):
             idle_counter += 1
 
 
+    # may not be able to utilize the ss in the animationlist. Issues with display init.
+    def drawEnemy():
+        window.blit(PlayerAnimationLists.images, (100,200))
 
 
 def draw_background(counter,scroll,tiles):

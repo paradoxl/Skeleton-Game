@@ -1,4 +1,7 @@
 import pygame
+import spritesheets
+
+
 playerWidth = 200
 playerHeight =400
 
@@ -33,3 +36,12 @@ player_jump = [pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_
                pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/jump_full/jump_17.png"),(playerHeight,playerWidth)),pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/jump_full/jump_18.png"),(playerHeight,playerWidth)),
                pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/jump_full/jump_19.png"),(playerHeight,playerWidth)),pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/jump_full/jump_20.png"),(playerHeight,playerWidth)),
                pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/jump_full/jump_21.png"),(playerHeight,playerWidth)),pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_ranger_Free_v1.0/animations/PNG/jump_full/jump_22.png"),(playerHeight,playerWidth))]
+
+
+#######################################
+# Enemies                             #
+#######################################
+Skeleton_Sprite_Sheet_Idle = spritesheets.spritesheet("assets/Skeleton/Sprite Sheets/Skeleton Idle.png")
+skeleton_idle_broken_down = Skeleton_Sprite_Sheet_Idle.image_at((0,0,16,16))
+images = []
+images = skeleton_idle_broken_down.image_at((0,0,16,16),(17,0,16,16), colorkey = (255,255,255))
