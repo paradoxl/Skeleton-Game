@@ -39,6 +39,9 @@ moving_left_counter = 1
 attack_counter = 1
 jump_counter = 1
 
+
+# drawing enemy
+enemy_idle = 1
 player_one = player.Player(player_height, player_width, player_health, player_velocity, player_starting_pos_x,
                            player_starting_pos_y, False, False, False,False,True,False)
 
@@ -138,11 +141,30 @@ def draw_player(keys_pressed, player_hitbox, player_one):
 
 
     # may not be able to utilize the ss in the animationlist. Issues with display init.
+    # 11 total sprites
 def draw_enemy():
+    global enemy_idle
     Skeleton_Sprite_Sheet_Idle = spritesheets.spritesheet("assets/Skeleton/Sprite Sheets/Skeleton Idle.png")
-    skeleton_idle_broken_down = pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((0, 0, 23, 32), colorkey=(0,0,0)),(75,75))
+    skeleton_idle_broken_down = pygame.transform.scale(
+        Skeleton_Sprite_Sheet_Idle.image_at((0, 0, 23, 32), colorkey=(0, 0, 0)), (75, 75))
+    skeleton_enemy = [
+        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((0, 0, 23, 32), colorkey=(0, 0, 0)), (75, 75)),
+        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((23, 0, 46, 32), colorkey=(0, 0, 0)), (75, 75)),
+        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((46, 0, 69, 32), colorkey=(0, 0, 0)), (75, 75)),
+        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((69, 0, 92, 32), colorkey=(0, 0, 0)), (75, 75)),
+        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((92, 0, 115, 32), colorkey=(0, 0, 0)), (75, 75)),
+        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((115, 138, 23, 32), colorkey=(0, 0, 0)), (75, 75)),
+        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((138, 0, 161, 32), colorkey=(0, 0, 0)), (75, 75)),
+        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((161, 0, 184, 32), colorkey=(0, 0, 0)), (75, 75)),
+        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((184, 0, 207, 32), colorkey=(0, 0, 0)), (75, 75)),
+        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((207, 0, 230, 32), colorkey=(0, 0, 0)), (75, 75)),
+        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((230, 0, 253, 32), colorkey=(0, 0, 0)), (75, 75))]
 
-    window.blit(skeleton_idle_broken_down, (100,200))
+
+    if enemy_idle >= 11:
+        enemy_idle = 1
+    window.blit(skeleton_enemy[enemy_idle], (600,425))
+    enemy_idle +=1
 
 
 def draw_background(counter,scroll,tiles):
