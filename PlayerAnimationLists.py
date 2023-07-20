@@ -42,3 +42,16 @@ player_jump = [pygame.transform.scale(pygame.image.load("assets/Elementals_Leaf_
 # Enemies                             #
 #######################################
 
+Skeleton_Sprite_Sheet_Idle = spritesheets.spritesheet("assets/Skeleton/Sprite Sheets/Skeleton Idle.png")
+skeleton_enemy = [
+        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((0, 0, 24, 32), colorkey=(0, 0, 0)), (75, 75)),
+        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((24, 0, 24, 32), colorkey=(0, 0, 0)), (75, 75)),
+        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((48, 0, 24, 32), colorkey=(0, 0, 0)), (75, 75)),
+        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((72, 0, 24, 32), colorkey=(0, 0, 0)), (75, 75)),
+        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((96, 0, 24, 32), colorkey=(0, 0, 0)), (75, 75)),
+        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((120, 0, 24, 32), colorkey=(0, 0, 0)), (75, 75)),
+        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((144, 0, 24, 32), colorkey=(0, 0, 0)), (75, 75)),
+        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((168, 0, 24, 32), colorkey=(0, 0, 0)), (75, 75)),
+        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((192, 0, 24, 32), colorkey=(0, 0, 0)), (75, 75)),
+        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((216, 0, 24, 32), colorkey=(0, 0, 0)), (75, 75)),
+        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((240, 0, 24, 32), colorkey=(0, 0, 0)), (75, 75))]

@@ -144,25 +144,11 @@ def draw_player(keys_pressed, player_hitbox, player_one):
     # 11 total sprites
 def draw_enemy():
     global enemy_idle
-    Skeleton_Sprite_Sheet_Idle = spritesheets.spritesheet("assets/Skeleton/Sprite Sheets/Skeleton Idle.png")
-    skeleton_enemy = [
-        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((0, 0, 24, 32), colorkey=(0, 0, 0)), (75, 75)),
-        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((24, 0, 24, 32), colorkey=(0, 0, 0)), (75, 75)),
-        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((48, 0, 24, 32), colorkey=(0, 0, 0)), (75, 75)),
-        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((72, 0, 24, 32), colorkey=(0, 0, 0)), (75, 75)),
-        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((96, 0, 24, 32), colorkey=(0, 0, 0)), (75, 75)),
-        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((120, 0, 24, 32), colorkey=(0, 0, 0)), (75, 75)),
-        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((144, 0, 24, 32), colorkey=(0, 0, 0)), (75, 75)),
-        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((168, 0, 24, 32), colorkey=(0, 0, 0)), (75, 75)),
-        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((192, 0, 24, 32), colorkey=(0, 0, 0)), (75, 75)),
-        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((216, 0, 24, 32), colorkey=(0, 0, 0)), (75, 75)),
-        pygame.transform.scale(Skeleton_Sprite_Sheet_Idle.image_at((240, 0, 24, 32), colorkey=(0, 0, 0)), (75, 75))]
 
 
     if enemy_idle >= 11:
         enemy_idle = 1
-        print("Loop")
-    window.blit(skeleton_enemy[enemy_idle], (600,425))
+    window.blit(PlayerAnimationLists.skeleton_enemy[enemy_idle], (600,425))
     enemy_idle +=1
 
 
