@@ -1,7 +1,12 @@
 import pygame
 
 
+
 def player_movement(keys_pressed,player_one,player_hitbox):
+    # physics for jumping
+    velocity = 5
+    mass = 1
+
     if keys_pressed[pygame.K_RIGHT]:
         player_one.x += 10
         player_hitbox.x += 10
@@ -24,6 +29,22 @@ def player_movement(keys_pressed,player_one,player_hitbox):
     if keys_pressed[pygame.K_1]:
         player_one.attacking = True
 
+    if keys_pressed[pygame.K_SPACE]:
+        print("Jumped")
+        player_one.is_jumping = True
+
+        F = (1/2)*mass*(velocity**2)
+        player_one.y -= F
+        velocity = velocity -1
+
+        if velocity < 0:
+            mass = -1
+        if velocity == -1:
+            player_one.is_jumping = False
 
 
+
+    #
+    # else:
+    #     player_one.is_jumping = False
     # Create jump function.

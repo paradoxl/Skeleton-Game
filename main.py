@@ -123,7 +123,7 @@ def draw_player(keys_pressed, player_hitbox, player_one):
             window.blit(value, (player_one.x, player_one.y))
             attack_counter += 1
 
-    # jump
+    # jump works properly with higher framerate. Need to refactor this to work seperately of other animations.
     elif player_one.is_jumping:
         if jump_counter == 22:
             player_one.is_jumping = False
