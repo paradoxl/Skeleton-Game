@@ -71,7 +71,6 @@ def main():
         # player_movement(keys_pressed,player_one,player_hitbox)
         player_controls.player_movement(keys_pressed,player_one,player_hitbox)
         draw_player(keys_pressed,player_hitbox,player_one)
-        jump_animation(player_one)
         draw_enemy()
 
         pygame.display.update()
@@ -102,7 +101,6 @@ def draw_player(keys_pressed, player_hitbox, player_one):
         window.blit(value,(player_one.x,player_one.y))
         moving_left_counter += 1
         player_one.direction_facing = False
-
     # Melee attack
     elif player_one.attacking:
         if player_one.direction_facing:
@@ -112,10 +110,6 @@ def draw_player(keys_pressed, player_hitbox, player_one):
             value = animation_lists.player_arrow_attack[attack_counter]
             window.blit(value,(player_one.x,player_one.y))
             attack_counter += 1
-
-        # since we do not want a continuous loop of the character attacking we set to false when the full animation
-        # has cycled.
-
         else:
             if attack_counter == 9:
                 player_one.attacking = False
@@ -123,45 +117,46 @@ def draw_player(keys_pressed, player_hitbox, player_one):
             value = pygame.transform.flip(animation_lists.player_arrow_attack[attack_counter],True,False)
             window.blit(value, (player_one.x, player_one.y))
             attack_counter += 1
-
     # jump works properly with higher framerate. Need to refactor this to work seperately of other animations.
-<<<<<<< Updated upstream
     elif player_one.is_jumping:
-        if jump_counter == 22:
-            player_one.is_jumping = False
-            jump_counter = 1
-        value = animation_lists.player_jump[jump_counter]
-        window.blit(value,(player_one.x,player_one.y))
-        jump_counter += 1
-=======
+        # if player_one.is_jumping is False:
+        #     jump_counter =1
+        # jump_counter = 1
+        if player_one.direction_facing:
+            value = animation_lists.player_jump[jump_counter]
+            window.blit(value, (player_one.x, player_one.y))
+            jump_counter += 1
+        else:
+            value = pygame.transform.flip(animation_lists.player_jump[jump_counter],True,False)
+            window.blit(value, (player_one.x, player_one.y))
+            jump_counter += 1
 
->>>>>>> Stashed changes
-
+        print(jump_counter)
     # Idle
     else:
         if player_one.direction_facing:
+            print("here")
             if idle_counter >= 12:
                 idle_counter = 1
             value = animation_lists.idlePlayer[idle_counter]
             window.blit(value,(player_one.x,player_one.y))
             idle_counter += 1
+            jump_counter = 1
+
         else:
             if idle_counter >= 12:
                 idle_counter = 1
             value = pygame.transform.flip(animation_lists.idlePlayer[idle_counter], True, False)
             window.blit(value, (player_one.x, player_one.y))
             idle_counter += 1
-
+            jump_counter = 1
 
 def draw_enemy():
     global enemy_idle
-
-
     if enemy_idle >= 11:
         enemy_idle = 1
     window.blit(animation_lists.skeleton_enemy[enemy_idle], (600,425))
     enemy_idle +=1
-
 
 def draw_background(counter,scroll,tiles):
     while (counter < tiles):
@@ -169,21 +164,6 @@ def draw_background(counter,scroll,tiles):
         counter += 1
     if abs(scroll) > background_image.get_width():
         scroll = 0
-
-<<<<<<< Updated upstream
-
-=======
-def jump_animation(player_one):
-    player_one.id
-    global jump_counter
-    if player_one.is_jumping:
-        if jump_counter == 22:
-            player_one.is_jumping = False
-            jump_counter = 1
-        value = animation_lists.player_jump[jump_counter]
-        window.blit(value,(player_one.x,player_one.y))
-        jump_counter += 1
->>>>>>> Stashed changes
 
 if __name__ == '__main__':
           main()
