@@ -1,6 +1,6 @@
 import pygame.display
 
-import PlayerAnimationLists
+import animation_lists
 
 
 class Player():

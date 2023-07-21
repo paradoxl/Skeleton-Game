@@ -12,3 +12,5 @@ class Enemy():
         self.idle = idle
         self.attacking = attacking
         self.direction_facing = direction_facing
+
+
