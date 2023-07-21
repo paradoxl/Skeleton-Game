@@ -8,18 +8,12 @@ import player
 import player_controls
 import spritesheets
 
-####################
-# Notes
-# Direction facing is a boolean.
-# False is facing left
-# True is facing right
-####################
-
 # pygame stuffs
 screen_width = 900
 screen_height = 600
 window = pygame.display.set_mode((screen_width, screen_height))
 pygame.init()
+
 # player information
 player_height = 400
 player_width = 200
@@ -27,9 +21,9 @@ player_health = 100
 player_velocity = 10
 player_starting_pos_x = 100
 player_starting_pos_y = 300
-# player_moving_left = False
-# player_moving_right = False
-# player_idle = False
+player_moving_left = False
+player_moving_right = False
+player_idle = False
 gravity = 0.6
 jump_height = 20
 jump_speed = 20
@@ -107,6 +101,7 @@ def draw_player(keys_pressed, player_hitbox, player_one):
         window.blit(value,(player_one.x,player_one.y))
         moving_left_counter += 1
         player_one.direction_facing = False
+
     # Melee attack
     elif player_one.attacking:
         if player_one.direction_facing:
@@ -116,6 +111,10 @@ def draw_player(keys_pressed, player_hitbox, player_one):
             value = animation_lists.player_arrow_attack[attack_counter]
             window.blit(value,(player_one.x,player_one.y))
             attack_counter += 1
+
+        # since we do not want a continuous loop of the character attacking we set to false when the full animation
+        # has cycled.
+
         else:
             if attack_counter == 9:
                 player_one.attacking = False
@@ -123,6 +122,7 @@ def draw_player(keys_pressed, player_hitbox, player_one):
             value = pygame.transform.flip(animation_lists.player_arrow_attack[attack_counter],True,False)
             window.blit(value, (player_one.x, player_one.y))
             attack_counter += 1
+
     # jump
     elif player_one.is_jumping:
         if jump_counter == 22:
@@ -166,38 +166,6 @@ def draw_background(counter,scroll,tiles):
         scroll = 0
 
 
-# def player_movement(keys_pressed,player_one,player_hitbox):
-    # global jump_speed
-    # if keys_pressed[pygame.K_RIGHT]:
-    #     player_one.x += 10
-    #     player_hitbox.x += 10
-    #     player_one.idle = False
-    #     player_one.moving_right = True
-    #
-    # elif keys_pressed[pygame.K_LEFT]:
-    #     player_one.idle = False
-    #     player_one.moving_right = False
-    #     player_one.moving_left = True
-    #     player_one.x -= 10
-    #     player_hitbox.x -= 10
-
-    # elif keys_pressed[pygame.K_1]:
-    #     player_one.attacking = True
-    #
-    # elif keys_pressed[pygame.K_SPACE]:
-    #     player_one.is_jumping = True
-    #     player_one.y -=20
-    #     player_hitbox.y -=20
-    #
-    # else:
-    #     player_one.idle = False
-    #     player_one.moving_right = False
-    #     player_one.moving_left = False
-    #     player_one.is_jumping = False
-
-# def enemy_movement(enemy_hitbox):
-#     direction = [(-1,0), (1,0)]
-#     dx,dy = random.choice(direction)
 
 if __name__ == '__main__':
           main()
