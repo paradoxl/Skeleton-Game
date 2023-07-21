@@ -71,6 +71,7 @@ def main():
         # player_movement(keys_pressed,player_one,player_hitbox)
         player_controls.player_movement(keys_pressed,player_one,player_hitbox)
         draw_player(keys_pressed,player_hitbox,player_one)
+        jump_animation(player_one)
         draw_enemy()
 
         pygame.display.update()
@@ -124,6 +125,7 @@ def draw_player(keys_pressed, player_hitbox, player_one):
             attack_counter += 1
 
     # jump works properly with higher framerate. Need to refactor this to work seperately of other animations.
+<<<<<<< Updated upstream
     elif player_one.is_jumping:
         if jump_counter == 22:
             player_one.is_jumping = False
@@ -131,6 +133,9 @@ def draw_player(keys_pressed, player_hitbox, player_one):
         value = animation_lists.player_jump[jump_counter]
         window.blit(value,(player_one.x,player_one.y))
         jump_counter += 1
+=======
+
+>>>>>>> Stashed changes
 
     # Idle
     else:
@@ -165,7 +170,20 @@ def draw_background(counter,scroll,tiles):
     if abs(scroll) > background_image.get_width():
         scroll = 0
 
+<<<<<<< Updated upstream
 
+=======
+def jump_animation(player_one):
+    player_one.id
+    global jump_counter
+    if player_one.is_jumping:
+        if jump_counter == 22:
+            player_one.is_jumping = False
+            jump_counter = 1
+        value = animation_lists.player_jump[jump_counter]
+        window.blit(value,(player_one.x,player_one.y))
+        jump_counter += 1
+>>>>>>> Stashed changes
 
 if __name__ == '__main__':
           main()
