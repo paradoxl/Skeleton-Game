@@ -117,11 +117,11 @@ def draw_player(keys_pressed, player_hitbox, player_one):
             value = pygame.transform.flip(animation_lists.player_arrow_attack[attack_counter],True,False)
             window.blit(value, (player_one.x, player_one.y))
             attack_counter += 1
-    # jump works properly with higher framerate. Need to refactor this to work seperately of other animations.
+#
+# Jumping
+#
     elif player_one.is_jumping:
-        # if player_one.is_jumping is False:
-        #     jump_counter =1
-        # jump_counter = 1
+        #Direction facing means the player is facing right
         if player_one.direction_facing:
             value = animation_lists.player_jump[jump_counter]
             window.blit(value, (player_one.x, player_one.y))
@@ -129,10 +129,9 @@ def draw_player(keys_pressed, player_hitbox, player_one):
         else:
             value = pygame.transform.flip(animation_lists.player_jump[jump_counter],True,False)
             window.blit(value, (player_one.x, player_one.y))
-            jump_counter += 1
-
-        print(jump_counter)
-    # Idle
+#            jump_counter += 1
+# Idle
+#
     else:
         if player_one.direction_facing:
             print("here")
