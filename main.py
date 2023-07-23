@@ -1,5 +1,7 @@
 import math
 import pygame
+
+import Collision
 import animation_lists
 import enemy
 import player
@@ -55,6 +57,7 @@ Skeleton_enemy = enemy.Enemy(player_height,player_width,10,player_velocity,enemy
                              False,False)
 
 player_hitbox = pygame.Rect(player_one.x, player_one.y, player_one.player_width, player_one.player_height)
+enemy_hitbox = pygame.Rect(Skeleton_enemy.x_pos,Skeleton_enemy.y_pos,Skeleton_enemy.enemy_width,Skeleton_enemy.enemy_height)
 pygame.mixer.init()
 pygame.mixer.music.load("assets/music/2019-12-09_-_Retro_Forest_-_David_Fesliyan.mp3")
 pygame.mixer.music.set_volume(.3)
@@ -76,6 +79,7 @@ def main():
                 game_running = False
 
         keys_pressed = pygame.key.get_pressed()
+        Collision.test_collision(Skeleton_enemy,player_one)
         draw_background(counter, scroll, tiles)
         # player_movement(keys_pressed,player_one,player_hitbox)
         player_controls.player_movement(keys_pressed,player_one,player_hitbox)
