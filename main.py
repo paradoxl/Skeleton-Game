@@ -79,7 +79,7 @@ def main():
                 game_running = False
 
         keys_pressed = pygame.key.get_pressed()
-        Collision.test_collision(Skeleton_enemy,player_one)
+        # Collision.test_collision(Skeleton_enemy,player_one)
         draw_background(counter, scroll, tiles)
         # player_movement(keys_pressed,player_one,player_hitbox)
         player_controls.player_movement(keys_pressed,player_one,player_hitbox)
